@@ -1,0 +1,21 @@
+{
+  "overview": "Entangled Retrievals is a technology-enabled retrieval coordination platform that helps individuals safely recover personal belongings during emotionally difficult life transitions through professional coordination, scheduling, documentation, GPS tracking, and inventory management.",
+  "features": [
+    "Public marketing site with animated hero and pricing",
+    "Customer booking flow with 7-step wizard and Stripe checkout",
+    "Live retrieval tracking with GPS dot on static map",
+    "Inventory builder with camera photo uploads",
+    "Customer dashboard with upcoming and active retrievals",
+    "Secure messaging and documentation center"
+  ],
+  "category": "showcase",
+  "tags": [
+    "retrieval",
+    "coordination",
+    "booking",
+    "tracking",
+    "inventory",
+    "payments"
+  ],
+  "last_updated": "2026-06-15T21:28:00.823Z"
+}

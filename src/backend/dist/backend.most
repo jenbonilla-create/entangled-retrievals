@@ -1,0 +1,314 @@
+// Version: 4.0.0
+type Address__157563045 =
+  {
+    city : Text;
+    gateCode : ?Text;
+    specialInstructions : ?Text;
+    state : Text;
+    street : Text;
+    unit : ?Text;
+    zip : Text
+  };
+type BookingId__572944220 = Nat;
+type Booking__628731632 =
+  {
+    createdAt : Timestamp__301639476;
+    id : BookingId__572944220;
+    paymentStatus : PaymentStatus__619471249;
+    pickupAddress : Address__157563045;
+    retrievalType : RetrievalType__737262090;
+    safetyAssessment : SafetyAssessment__69235303;
+    scheduledDate : Timestamp__301639476;
+    status : RetrievalStatus__869934321;
+    totalAmount : Nat;
+    updatedAt : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type CoordinatorLocation__177563704 =
+  {
+    bookingId : BookingId__572944220;
+    location : Location__847735819;
+    updatedAt : Timestamp__301639476
+  };
+type Data__80296667<K, V> =
+  {var count : Nat__1040412405; kvs : [var ?(K, V)]};
+type DocumentId__446996092 = Nat;
+type DocumentType__94029593 =
+  {#other; #pdf; #photo; #receipt; #report; #signature; #video};
+type Document__605525894 =
+  {
+    bookingId : BookingId__572944220;
+    createdAt : Timestamp__301639476;
+    docType : DocumentType__94029593;
+    id : DocumentId__446996092;
+    name : Text;
+    url : Text
+  };
+type Internal__41346355<K, V> =
+  {children : [var ?Node__1000929467<K, V>]; data : Data__80296667<K, V>};
+type InventoryItemId__553474759 = Nat;
+type InventoryItem__968277927 =
+  {
+    bookingId : BookingId__572944220;
+    condition : ItemCondition__466174851;
+    createdAt : Timestamp__301639476;
+    description : ?Text;
+    estimatedValue : ?Nat;
+    id : InventoryItemId__553474759;
+    name : Text;
+    notes : ?Text;
+    photoUrls : [Text];
+    priority : Priority__945997984;
+    status : ItemStatus__224866659
+  };
+type ItemCondition__466174851 = {#damaged; #excellent; #fair; #good; #poor};
+type ItemStatus__224866659 =
+  {#damaged; #disputed; #notRetrieved; #pending; #retrieved};
+type Leaf__712614010<K, V> = {data : Data__80296667<K, V>};
+type Location__847735819 = {lat : Float; lng : Float};
+type Map__222667396<K, V> = Map__912772452<K, V>;
+type Map__709709801<K, V> =
+  {var root : Node__1000929467<K, V>; var size : Nat__1040412405};
+type Map__912772452<K, V> = Map__709709801<K, V>;
+type MessageId__291319400 = Nat;
+type Message__308256731 =
+  {
+    attachments : [Text];
+    bookingId : BookingId__572944220;
+    content : Text;
+    createdAt : Timestamp__301639476;
+    id : MessageId__291319400;
+    senderId : UserId__158757552;
+    senderRole : Role__300349085
+  };
+type Nat__1040412405 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__61444667 =
+  {
+    var bookings :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        id : Nat;
+                        paymentStatus : {#failed; #paid; #pending; #refunded};
+                        pickupAddress :
+                          {
+                            city : Text;
+                            gateCode : ?Text;
+                            specialInstructions : ?Text;
+                            state : Text;
+                            street : Text;
+                            unit : ?Text;
+                            zip : Text
+                          };
+                        retrievalType :
+                          {
+                            #breakup;
+                            #emergency;
+                            #familyConflict;
+                            #propertyExchange;
+                            #roommate;
+                            #separation;
+                            #storage
+                          };
+                        safetyAssessment :
+                          {
+                            childrenPresent : Bool;
+                            historyOfConflict : Bool;
+                            notes : ?Text;
+                            petsPresent : Bool;
+                            policeInvolvement : Bool;
+                            potentialThreats : Bool;
+                            restrainingOrder : Bool;
+                            weaponsConcern : Bool
+                          };
+                        scheduledDate : Nat;
+                        status :
+                          {
+                            #arrived;
+                            #closed;
+                            #coordinatorAssigned;
+                            #documentationComplete;
+                            #finished;
+                            #inProgress;
+                            #requestReceived;
+                            #reviewing;
+                            #traveling
+                          };
+                        totalAmount : Nat;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var coordinatorLocations :
+      Map__222667396<Nat,
+                      {
+                        bookingId : Nat;
+                        location : {lat : Float; lng : Float};
+                        updatedAt : Nat
+                      }>;
+    var documents :
+      Map__222667396<Nat,
+                      {
+                        bookingId : Nat;
+                        createdAt : Nat;
+                        docType :
+                          {
+                            #other;
+                            #pdf;
+                            #photo;
+                            #receipt;
+                            #report;
+                            #signature;
+                            #video
+                          };
+                        id : Nat;
+                        name : Text;
+                        url : Text
+                      }>;
+    var inventoryItems :
+      Map__222667396<Nat,
+                      {
+                        bookingId : Nat;
+                        condition :
+                          {#damaged; #excellent; #fair; #good; #poor};
+                        createdAt : Nat;
+                        description : ?Text;
+                        estimatedValue : ?Nat;
+                        id : Nat;
+                        name : Text;
+                        notes : ?Text;
+                        photoUrls : [Text];
+                        priority : {#critical; #high; #low; #medium};
+                        status :
+                          {
+                            #damaged;
+                            #disputed;
+                            #notRetrieved;
+                            #pending;
+                            #retrieved
+                          }
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        attachments : [Text];
+                        bookingId : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        senderId : Principal;
+                        senderRole : {#admin; #customer; #staff}
+                      }>;
+    var nextBookingId : {var value : Nat};
+    var nextDocumentId : {var value : Nat};
+    var nextInventoryItemId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextUserId : {var value : Nat};
+    var users :
+      Map__222667396<Principal,
+                      {
+                        createdAt : Nat;
+                        email : Text;
+                        firstName : Text;
+                        id : Principal;
+                        lastName : Text;
+                        passwordHash : Text;
+                        phone : Text;
+                        role : {#admin; #customer; #staff}
+                      }>
+  };
+type Node__1000929467<K, V> =
+  {#internal : Internal__41346355<K, V>; #leaf : Leaf__712614010<K, V>};
+type OldActor__360091410 = {};
+type PaymentStatus__619471249 = {#failed; #paid; #pending; #refunded};
+type Priority__945997984 = {#critical; #high; #low; #medium};
+type RetrievalStatus__869934321 =
+  {
+    #arrived;
+    #closed;
+    #coordinatorAssigned;
+    #documentationComplete;
+    #finished;
+    #inProgress;
+    #requestReceived;
+    #reviewing;
+    #traveling
+  };
+type RetrievalType__737262090 =
+  {
+    #breakup;
+    #emergency;
+    #familyConflict;
+    #propertyExchange;
+    #roommate;
+    #separation;
+    #storage
+  };
+type Role__300349085 = {#admin; #customer; #staff};
+type SafetyAssessment__69235303 =
+  {
+    childrenPresent : Bool;
+    historyOfConflict : Bool;
+    notes : ?Text;
+    petsPresent : Bool;
+    policeInvolvement : Bool;
+    potentialThreats : Bool;
+    restrainingOrder : Bool;
+    weaponsConcern : Bool
+  };
+type Timestamp__301639476 = Nat;
+type UserId__158757552 = Principal;
+type User__933515552 =
+  {
+    createdAt : Timestamp__301639476;
+    email : Text;
+    firstName : Text;
+    id : UserId__158757552;
+    lastName : Text;
+    passwordHash : Text;
+    phone : Text;
+    role : Role__300349085
+  };
+{
+  "20260615_000000_Initial" :
+    (old : OldActor__360091410) -> NewActor__61444667
+}
+actor  {
+  stable bookings :
+    {
+      var root : Node__1000929467<BookingId__572944220, Booking__628731632>;
+      var size : Nat__1040412405
+    };
+  stable coordinatorLocations :
+    {
+      var root :
+        Node__1000929467<BookingId__572944220, CoordinatorLocation__177563704>;
+      var size : Nat__1040412405
+    };
+  stable documents :
+    {
+      var root : Node__1000929467<DocumentId__446996092, Document__605525894>;
+      var size : Nat__1040412405
+    };
+  stable inventoryItems :
+    {
+      var root :
+        Node__1000929467<InventoryItemId__553474759, InventoryItem__968277927>;
+      var size : Nat__1040412405
+    };
+  stable messages :
+    {
+      var root : Node__1000929467<MessageId__291319400, Message__308256731>;
+      var size : Nat__1040412405
+    };
+  stable nextBookingId : {var value : Nat};
+  stable nextDocumentId : {var value : Nat};
+  stable nextInventoryItemId : {var value : Nat};
+  stable nextMessageId : {var value : Nat};
+  stable nextUserId : {var value : Nat};
+  stable users :
+    {
+      var root : Node__1000929467<UserId__158757552, User__933515552>;
+      var size : Nat__1040412405
+    }
+};

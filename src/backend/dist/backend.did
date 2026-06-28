@@ -1,0 +1,316 @@
+type UserProfile = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   firstName: text;
+   id: UserId;
+   lastName: text;
+   phone: text;
+   role: Role;
+ };
+type UserId = principal;
+type User = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   firstName: text;
+   id: UserId;
+   lastName: text;
+   passwordHash: text;
+   phone: text;
+   role: Role;
+ };
+type Timestamp = nat;
+type SafetyAssessment = 
+ record {
+   childrenPresent: bool;
+   historyOfConflict: bool;
+   notes: opt text;
+   petsPresent: bool;
+   policeInvolvement: bool;
+   potentialThreats: bool;
+   restrainingOrder: bool;
+   weaponsConcern: bool;
+ };
+type Role = 
+ variant {
+   admin;
+   customer;
+   staff;
+ };
+type RetrievalType = 
+ variant {
+   breakup;
+   emergency;
+   familyConflict;
+   propertyExchange;
+   roommate;
+   separation;
+   storage;
+ };
+type RetrievalStatus = 
+ variant {
+   arrived;
+   closed;
+   coordinatorAssigned;
+   documentationComplete;
+   finished;
+   inProgress;
+   requestReceived;
+   reviewing;
+   traveling;
+ };
+type Result_9 = 
+ variant {
+   err: ApiError;
+   ok: Document;
+ };
+type Result_8 = 
+ variant {
+   err: ApiError;
+   ok: Message;
+ };
+type Result_7 = 
+ variant {
+   err: ApiError;
+   ok: vec Document;
+ };
+type Result_6 = 
+ variant {
+   err: ApiError;
+   ok: vec InventoryItem;
+ };
+type Result_5 = 
+ variant {
+   err: ApiError;
+   ok: vec Message;
+ };
+type Result_4 = 
+ variant {
+   err: ApiError;
+   ok: vec Booking;
+ };
+type Result_3 = 
+ variant {
+   err: ApiError;
+   ok: UserProfile;
+ };
+type Result_2 = 
+ variant {
+   err: ApiError;
+   ok: Booking;
+ };
+type Result_1 = 
+ variant {
+   err: ApiError;
+   ok: CoordinatorLocation;
+ };
+type Result = 
+ variant {
+   err: ApiError;
+   ok: InventoryItem;
+ };
+type RegisterInput = 
+ record {
+   email: text;
+   firstName: text;
+   lastName: text;
+   password: text;
+   phone: text;
+ };
+type Priority = 
+ variant {
+   critical;
+   high;
+   low;
+   medium;
+ };
+type PaymentStatus = 
+ variant {
+   failed;
+   paid;
+   pending;
+   refunded;
+ };
+type MessageId = nat;
+type Message = 
+ record {
+   attachments: vec text;
+   bookingId: BookingId;
+   content: text;
+   createdAt: Timestamp;
+   id: MessageId;
+   senderId: UserId;
+   senderRole: Role;
+ };
+type LoginInput = 
+ record {
+   email: text;
+   password: text;
+ };
+type Location = 
+ record {
+   lat: float64;
+   lng: float64;
+ };
+type ItemStatus = 
+ variant {
+   damaged;
+   disputed;
+   notRetrieved;
+   pending;
+   retrieved;
+ };
+type ItemCondition = 
+ variant {
+   damaged;
+   excellent;
+   fair;
+   good;
+   poor;
+ };
+type InventoryItemId = nat;
+type InventoryItem = 
+ record {
+   bookingId: BookingId;
+   condition: ItemCondition;
+   createdAt: Timestamp;
+   description: opt text;
+   estimatedValue: opt nat;
+   id: InventoryItemId;
+   name: text;
+   notes: opt text;
+   photoUrls: vec text;
+   priority: Priority;
+   status: ItemStatus;
+ };
+type DocumentType = 
+ variant {
+   other;
+   pdf;
+   photo;
+   receipt;
+   report;
+   signature;
+   video;
+ };
+type DocumentId = nat;
+type Document = 
+ record {
+   bookingId: BookingId;
+   createdAt: Timestamp;
+   docType: DocumentType;
+   id: DocumentId;
+   name: text;
+   url: text;
+ };
+type CoordinatorLocation = 
+ record {
+   bookingId: BookingId;
+   location: Location;
+   updatedAt: Timestamp;
+ };
+type BookingId = nat;
+type Booking = 
+ record {
+   createdAt: Timestamp;
+   id: BookingId;
+   paymentStatus: PaymentStatus;
+   pickupAddress: Address;
+   retrievalType: RetrievalType;
+   safetyAssessment: SafetyAssessment;
+   scheduledDate: Timestamp;
+   status: RetrievalStatus;
+   totalAmount: nat;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type ApiError = 
+ variant {
+   badRequest: text;
+   internalError: text;
+   notFound;
+   unauthorized;
+ };
+type Address = 
+ record {
+   city: text;
+   gateCode: opt text;
+   specialInstructions: opt text;
+   state: text;
+   street: text;
+   unit: opt text;
+   zip: text;
+ };
+service : {
+  __bookings: (ko: opt BookingId, count: opt nat) ->
+   (vec record {
+          BookingId;
+          Booking;
+        }) query;
+  __coordinatorLocations: (ko: opt BookingId, count: opt nat) ->
+   (vec record {
+          BookingId;
+          CoordinatorLocation;
+        }) query;
+  __documents: (ko: opt DocumentId, count: opt nat) ->
+   (vec record {
+          DocumentId;
+          Document;
+        }) query;
+  __inventoryItems: (ko: opt InventoryItemId, count: opt nat) ->
+   (vec record {
+          InventoryItemId;
+          InventoryItem;
+        }) query;
+  __messages: (ko: opt MessageId, count: opt nat) ->
+   (vec record {
+          MessageId;
+          Message;
+        }) query;
+  __nextBookingId: () -> (reserved) query;
+  __nextDocumentId: () -> (reserved) query;
+  __nextInventoryItemId: () -> (reserved) query;
+  __nextMessageId: () -> (reserved) query;
+  __nextUserId: () -> (reserved) query;
+  __users: (ko: opt UserId, count: opt nat) ->
+   (vec record {
+          UserId;
+          User;
+        }) query;
+  addDocument: (bookingId: BookingId, docType: DocumentType, url: text, name:
+   text) -> (Result_9);
+  addInventoryItem: (bookingId: BookingId, name: text, photoUrls: vec text,
+   description: opt text, estimatedValue: opt nat, priority: Priority) ->
+   (Result);
+  addMessage: (bookingId: BookingId, content: text, attachments: vec text) ->
+   (Result_8);
+  cancelBooking: (id: BookingId) -> (Result_2);
+  createBooking: (retrievalType: RetrievalType, pickupAddress: Address,
+   safetyAssessment: SafetyAssessment, scheduledDate: Timestamp, totalAmount:
+   nat) -> (Result_2);
+  getBooking: (id: BookingId) -> (Result_2) query;
+  getCoordinatorLocation: (bookingId: BookingId) -> (Result_1) query;
+  getDocuments: (bookingId: BookingId) -> (Result_7) query;
+  getInventoryItems: (bookingId: BookingId) -> (Result_6) query;
+  getMessages: (bookingId: BookingId) -> (Result_5) query;
+  getMyBookings: () -> (Result_4) query;
+  getUserProfile: () -> (Result_3) query;
+  listBookings: () -> (Result_4) query;
+  loginUser: (input: LoginInput) -> (Result_3);
+  registerUser: (input: RegisterInput) -> (Result_3);
+  updateBookingStatus: (id: BookingId, status: RetrievalStatus) -> (Result_2);
+  updateCoordinatorLocation: (bookingId: BookingId, location: Location) ->
+   (Result_1);
+  updateInventoryItem: (id: InventoryItemId, updates:
+   record {
+     condition: opt ItemCondition;
+     description: opt text;
+     estimatedValue: opt nat;
+     name: opt text;
+     notes: opt text;
+     photoUrls: opt vec text;
+     priority: opt Priority;
+     status: opt ItemStatus;
+   }) -> (Result);
+}
